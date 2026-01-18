@@ -1,10 +1,9 @@
 import { Router } from "express";
-import {getUsers} from "../controller/user.controller.js";
+import { getUsers, createUser } from "../controller/user.controller.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { validateuser } from "../middlewares/validateUser.middleware.js";
-import { newUser } from "../services/user.service.js";
+import { verifyJwt } from "../middlewares/jwt.middleware.js";
 
 const router = Router();
-router.get('/get-users', asyncHandler(getUsers));
-router.post('/create-user', asyncHandler(newUser));
+router.get('/get-users', verifyJwt, asyncHandler(getUsers));
+router.post('/create-user', verifyJwt, asyncHandler(createUser)); // Assuming admin only or authenticated creation
 export default router;
